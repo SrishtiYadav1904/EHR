@@ -1,0 +1,65 @@
+{
+    "patients": [
+        {
+            "id": 1,
+            "name": "srishti",
+            "age": 12,
+            "gender": "M",
+            "disease": "Flu",
+            "medicines": "Crocin",
+            "blood": "O+"
+        },
+        {
+            "id": 2,
+            "name": "Mrugi",
+            "age": 20,
+            "gender": "F",
+            "disease": "Diabetes",
+            "medicines": "Metformin",
+            "blood": "A+"
+        },
+        {
+            "id": 3,
+            "name": "Vikram",
+            "age": 30,
+            "gender": "M",
+            "disease": "Acute Bronchitis",
+            "medicines": "drugs",
+            "blood": "B+"
+        },
+        {
+            "id": 4,
+            "name": "Neha",
+            "age": 27,
+            "gender": "F",
+            "disease": "Hypertension",
+            "medicines": "Amlodipine",
+            "blood": "AB+"
+        },
+        {
+            "id": 5,
+            "name": "Rahul",
+            "age": 40,
+            "gender": "M",
+            "disease": "Covid-19",
+            "medicines": "Remdesivir",
+            "blood": "O-"
+        }
+    ],
+    "doctors": [
+        {
+            "doc_id": 101,
+            "name": "Dr. Mehta",
+            "age": 45,
+            "gender": "M",
+            "specialization": "Cardiologist"
+        },
+        {
+            "doc_id": 102,
+            "name": "Dr. Sharma",
+            "age": 38,
+            "gender": "F",
+            "specialization": "Pulmonologist"
+        }
+    ]
+}
