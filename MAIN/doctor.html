@@ -1,16 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
-        .section-box { background-color: white; border-radius: 0.75rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); padding: 1.5rem; margin: 1rem; }
-        #results-box { background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 0.5rem; overflow-x: auto;}
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+
+        .section-box {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 1.5rem;
+            margin: 1rem;
+        }
+
+        #results-box {
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+        }
     </style>
 </head>
+
 <body class="p-6">
     <div class="container mx-auto max-w-4xl">
         <a href="/" class="text-sm text-gray-500 hover:underline mb-4 inline-block">← Back to Home</a>
@@ -25,7 +43,7 @@
             <h2 class="text-xl font-semibold text-gray-800 mb-4">Update Patient Data</h2>
             <div class="space-y-3">
                 <input type="number" id="doctor-update-id" placeholder="Enter Patient ID to Update (e.g., 1)" class="w-full p-2 border border-gray-300 rounded-md">
-                
+
                 <div class="flex space-x-2">
                     <select id="doctor-update-category" class="w-1/3 p-2 border border-gray-300 rounded-md bg-white">
                         <option value="name">Name</option>
@@ -36,19 +54,21 @@
                     </select>
                     <input type="text" id="doctor-update-value" placeholder="Enter new value" class="w-2/3 p-2 border border-gray-300 rounded-md">
                 </div>
-                
+
                 <button onclick="handleUpdatePatient()" class="w-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">Update Record</button>
             </div>
         </div>
 
         <div class="section-box">
-             <h3 class="text-lg font-semibold text-gray-800 mb-2">Server Response</h3>
-            <div id="results-box"><p class="p-4 text-gray-500">Awaiting Request...</p></div>
+            <h3 class="text-lg font-semibold text-gray-800 mb-2">Server Response</h3>
+            <div id="results-box">
+                <p class="p-4 text-gray-500">Awaiting Request...</p>
+            </div>
         </div>
     </div>
 
     <script>
-        const API_BASE_URL = "http://10.217.12.87:9000/api";
+        const API_BASE_URL = "http://192.168.0.102:9000/api";
         const resultsBox = document.getElementById('results-box');
 
         // This function builds a table if the data is an object or array
@@ -103,23 +123,31 @@
             table.appendChild(tbody);
             return table;
         }
-        
+
         async function apiRequest(endpoint, method = 'GET', body = null) {
             try {
                 const options = {
                     method: method,
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                 };
-                if (body) { options.body = JSON.stringify(body); }
+                if (body) {
+                    options.body = JSON.stringify(body);
+                }
                 const response = await fetch(`${API_BASE_URL}${endpoint}`, options);
                 const data = await response.json();
-                if (!response.ok) { throw new Error(data.error || 'Something went wrong'); }
+                if (!response.ok) {
+                    throw new Error(data.error || 'Something went wrong');
+                }
                 return data;
             } catch (error) {
-                return { error: error.message };
+                return {
+                    error: error.message
+                };
             }
         }
-        
+
         async function handleGetAllPatients() {
             logToScreen('info', 'Calling GET /api/get_all_patients...');
             const response = await apiRequest('/get_all_patients');
@@ -133,7 +161,9 @@
             let value = document.getElementById('doctor-update-value').value;
 
             if (!patientId || !category || value.trim() === '') {
-                logToScreen('error', { error: 'Patient ID, category, and a new value are required.' });
+                logToScreen('error', {
+                    error: 'Patient ID, category, and a new value are required.'
+                });
                 return;
             }
 
@@ -143,7 +173,9 @@
             if (category === 'age') {
                 const age = parseInt(value, 10);
                 if (isNaN(age)) {
-                    logToScreen('error', { error: 'Please enter a valid number for age.'});
+                    logToScreen('error', {
+                        error: 'Please enter a valid number for age.'
+                    });
                     return;
                 }
                 newData[category] = age;
@@ -151,10 +183,14 @@
                 newData[category] = value;
             }
 
-            const body = { patient_id: patientId, new_data: newData };
+            const body = {
+                patient_id: patientId,
+                new_data: newData
+            };
             const response = await apiRequest('/update_patient_record', 'POST', body);
             logToScreen(response.error ? 'error' : 'success', response);
         }
     </script>
 </body>
+
 </html>
